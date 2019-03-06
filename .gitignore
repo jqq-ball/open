@@ -1,7 +1,8 @@
 .settings/
-/target/
+target/
 .idea/
 *.iml
 *.classpath
 *.project
 *.factorypath
+*.springBeans
