@@ -1,0 +1,169 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.open</groupId>
+	<artifactId>open</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<spring-boot.version>2.0.7.RELEASE</spring-boot.version>
+		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
+		<spring-platform.version>Cairo-SR6</spring-platform.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<spring-boot-admin.version>2.0.4</spring-boot-admin.version>
+		<hutool.version>4.3.2</hutool.version>
+		<mybatis-plus.version>3.0.6</mybatis-plus.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
+		<swagger.version>2.9.2</swagger.version>
+		<curator.version>2.10.0</curator.version>
+		<velocity.version>1.7</velocity.version>
+		<lcn.version>4.1.0</lcn.version>
+		<jasypt.version>2.1.0</jasypt.version>
+		<ttl.version>2.10.1</ttl.version>
+		<minio.version>3.0.12</minio.version>
+		<elastic-job-lite.version>2.1.5</elastic-job-lite.version>
+		<mysql.connector.version>8.0.13</mysql.connector.version>
+		<security.oauth.version>2.3.3.RELEASE</security.oauth.version>
+		<jackson.modules>2.9.6</jackson.modules>
+		<activiti.version>5.22.0</activiti.version>
+	</properties>
+
+
+	<dependencies>
+		<!--eureka 客户端 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<!--配置文件处理器 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--jasypt配置文件加解密 -->
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>${jasypt.version}</version>
+		</dependency>
+		<!--监控 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--监控客户端 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>${spring-boot-admin.version}</version>
+		</dependency>
+		<!--断路器依赖 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+		</dependency>
+		<!--Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--测试依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!--jackson模块 -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.module</groupId>
+				<artifactId>jackson-modules-java8</artifactId>
+				<version>${jackson.modules}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<!-- 指定打包文件名称（可用于除去jar文件版本号） -->
+		<finalName>${project.name}</finalName>
+		<resources>
+			<resource>
+				<!-- 资源目录（编译时会将指定资源目录中的内容复制到输出目录） -->
+				<directory>src/main/resources</directory>
+
+				<!-- 是否开启资源过滤（需要引入maven-resources-plugin插件） | true：将用过滤资源（filters标签）中的内容 
+					替换 资源中相应的占位符（${Xxxx}）内容 | false：不做过滤替换操作 -->
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
+					<configuration>
+						<finalName>${project.build.finalName}</finalName>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<target>${maven.compiler.target}</target>
+					<source>${maven.compiler.source}</source>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+	</build>
+	
+	
+	<modules>
+		<module>open-common</module>
+		<module>open-codegen</module>
+		<module>open-eureka</module>
+		<module>open-api</module>
+		<module>open-config</module>
+	</modules>
+	
+</project>
